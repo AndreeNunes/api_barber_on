@@ -1,9 +1,5 @@
 package br.com.api.barberon.controller;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,27 +26,16 @@ public class LoginController implements WebMvcConfigurer {
         .allowedMethods("GET", "POST", "PUT");
 	}
 	
-	@GetMapping("/teste")	
-	public ResponseEntity<String> teste(){
-		return new ResponseEntity<>("TESTE", HttpStatus.OK);
-		
-	}
-	
 	@PostMapping
-	@ResponseStatus(HttpStatus.CREATED)
+	@ResponseStatus
 	public String logar(@RequestBody LoginDTO login){
-		
-		System.out.println(login.getSenha());
-		System.out.println(login.getUsuario());
-		
 		Gson gson = new Gson();
 		String json;
 		Login l = new Login();
 		LoginDAO dao = new LoginDAO();
+		
 		l = dao.validaAcessoAoApp(login);
 		json = gson.toJson(l);
-		
-		System.out.println(l);
 		
 		return json;
 	}
